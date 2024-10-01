@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useAddTask } from '../hooks/usetask';
 import { Button, TextField } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TaskForm: React.FC = () => {
     const [title, setTitle] = useState('');
@@ -8,10 +10,11 @@ const TaskForm: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-
+        
         if (title.trim()) {
             addTask(title); 
             setTitle('');
+            toast("Item added!");
         }
     };
 

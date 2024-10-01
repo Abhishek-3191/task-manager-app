@@ -14,7 +14,9 @@ export const fetchTasks = async (): Promise<Task[]> => {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(tasks);
+        console.log(tasks);
       }, 1);
+
     });
   };
 
@@ -24,6 +26,7 @@ export const fetchTasks = async (): Promise<Task[]> => {
             const newTask={id:uuidv4(),title,completed:false};
             tasks.push(newTask);
             resolve(newTask);
+            console.log(tasks);
         },1);
     });
   };
@@ -40,6 +43,7 @@ export const fetchTasks = async (): Promise<Task[]> => {
         );
         const updatedTask = tasks.find((task) => task.id === id) || null;
         resolve(updatedTask);
+        console.log(tasks);
       }, 1);
     });
   };
@@ -51,6 +55,7 @@ export const fetchTasks = async (): Promise<Task[]> => {
    setTimeout(()=>{
     tasks=tasks.filter((task)=>task.id!==id);
     resolve(id);
+    console.log(tasks);
    },1);
     });
 };

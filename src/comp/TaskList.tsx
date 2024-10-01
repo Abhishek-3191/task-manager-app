@@ -10,6 +10,7 @@ const TaskList: React.FC = () => {
   // Function to handle task deletion
   const handleDelete = (id: string) => {
     deleteTaskMutation.mutate(id);
+    console.log(tasks);
   };
 
   // Function to handle toggling task completion
@@ -32,8 +33,8 @@ const TaskList: React.FC = () => {
           id={task.id}
           title={task.title}
           completed={task.completed}
-          handleDelete={handleDelete} // Pass the delete handler
-          handleToggle={handleToggle} // Pass the toggle handler
+          handleDelete={handleDelete}
+          handleToggle={handleToggle}
         />
       ))}
     </div>

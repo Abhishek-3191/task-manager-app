@@ -1,88 +1,71 @@
-// import React,{useState} from 'react';
-// import { useUpdateTask, useDeleteTask } from '../hooks/usetask';
-// import { Checkbox, IconButton } from '@mui/material';
-// import DeleteIcon from '@mui/icons-material/Delete';
-// import EditIcon from '@mui/icons-material/Edit'
-// interface TaskItemProps {
-//   id: string;
-//   title: string;
-//   completed: boolean;
-// }
-
-// const TaskItem: React.FC<TaskItemProps> = ({ id, title, completed }) => {
-//   const updateTask = useUpdateTask();
-//   const deleteTask = useDeleteTask();
-//   const [isEditing, setIsEditing] = useState(false);
-//   const [newTitle, setNewTitle] = useState(title); // Initialize with the current title
-  
-
-
-//   const handleToggle = () => {
-//     updateTask.mutate({ id, completed: !completed ,title});
-//   };
-
-//   const handleDelete = () => {
-//     deleteTask.mutate(id);
-//   };
-  
-//   const handleUpdate=()=>{
-//     updateTask.mutate({ id,completed,title});
-//   };
- 
-//   const handleEditClick = () => {
-//     setIsEditing(true);
-//   };
-//   return (
-//     <div className="flex items-center justify-between p-4 border-b border-gray-300">
-//       <div className="flex items-center">
-//         <Checkbox 
-//           checked={completed} 
-//           onChange={handleToggle} 
-//           color="primary"
-//         />
-//         <span className={`${completed ? 'line-through text-gray-400' : ''}`}>
-//           {title}
-//         </span>
-//       </div>
-//       <IconButton onClick={handleDelete} color="secondary">
-//         <DeleteIcon />
-//       </IconButton>
-//       <IconButton onClick={handleUpdate} color="secondary">
-//         <EditIcon/>
-//       </IconButton>
-//     </div>
-//   );
-// };
-
-// export default TaskItem;
-
 import React, { useState } from 'react';
 import { Checkbox, IconButton, TextField } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
 import { useUpdateTask } from '../hooks/usetask';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 interface TaskItemProps {
   id: string;
   title: string;
   completed: boolean;
-  handleDelete: (id: string) => void; // Assuming you have this function passed down
-  handleToggle: (id: string) => void; // Assuming you have this function passed down
+  handleDelete: (id: string) => void; 
+  handleToggle: (id: string) => void; 
 }
 
 const TaskItem: React.FC<TaskItemProps> = ({ id, title, completed, handleDelete, handleToggle }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [newTitle, setNewTitle] = useState(title); // Initialize with current title
+  const [newTitle, setNewTitle] = useState(title); 
   const updateTaskMutation = useUpdateTask();
 
-  // Handle saving the edited task
+  const confirmDelete = (id: string) => {
+    toast.info(
+      <div style={{ textAlign: 'center' }}>
+        <p>Are you sure you want to delete?</p>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+          <button
+            onClick={() => {
+              handleDelete(id);
+              toast.dismiss(); 
+            }}
+            style={{
+              backgroundColor: '#ff4d4f',
+              color: 'white',
+              border: 'none',
+              padding: '8px 12px',
+              borderRadius: '4px',
+              cursor: 'pointer',
+            }}
+          >
+            Yes
+          </button>
+          <button
+            onClick={() => toast.dismiss()}
+            style={{
+              backgroundColor: '#1890ff',
+              color: 'white',
+              border: 'none',
+              padding: '8px 12px',
+              borderRadius: '4px',
+              cursor: 'pointer',
+            }}
+          >
+            No
+          </button>
+        </div>
+      </div>
+    );
+  };
+
   const handleSave = () => {
     updateTaskMutation.mutate({
       id,
       completed,
       title: newTitle,
     });
-    setIsEditing(false); // Exit editing mode
+    setIsEditing(false); 
   };
 
   return (
@@ -109,14 +92,14 @@ const TaskItem: React.FC<TaskItemProps> = ({ id, title, completed, handleDelete,
       <div>
         {isEditing ? (
           <IconButton onClick={handleSave} color="primary">
-            Save
+            <SaveIcon/>
           </IconButton>
         ) : (
           <>
             <IconButton onClick={() => setIsEditing(true)} color="secondary">
               <EditIcon />
             </IconButton>
-            <IconButton onClick={() => handleDelete(id)} color="secondary">
+            <IconButton onClick={() => confirmDelete(id)} color="secondary">
               <DeleteIcon />
             </IconButton>
           </>
