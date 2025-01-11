@@ -2,6 +2,7 @@
   "name": "task_manager",
   "version": "0.1.0",
   "private": true,
+  "homepage": ":https://github.com/Abhishek-3191/task-manager-app",
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
@@ -24,12 +25,15 @@
     "uuid": "^10.0.0",
     "web-vitals": "^2.1.4"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
+ "scripts": {
+  "start": "react-scripts start",
+  "build": "react-scripts build",
+  "test": "react-scripts test",
+  "eject": "react-scripts eject",
+  "predeploy": "npm run build",
+  "deploy": "gh-pages -d build"
+},
+
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -50,6 +54,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
+    "gh-pages": "^6.3.0",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.13"
   }
